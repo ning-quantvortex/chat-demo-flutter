@@ -14,19 +14,19 @@ import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_chat_controller
 import 'package:tencent_cloud_chat_uikit/ui/utils/message.dart';
 import 'package:tencent_cloud_chat_uikit/ui/utils/platform.dart';
 import 'package:tencent_cloud_chat_uikit/ui/utils/screen_utils.dart';
-import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_text_field_layout/wide.dart';
+// import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_text_field_layout/wide.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitProfile/profile_widget.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitProfile/widget/tim_uikit_profile_widget.dart';
 import 'package:tencent_cloud_chat_uikit/ui/widgets/wide_popup.dart';
-import 'package:tim_ui_kit_lbs_plugin/pages/location_picker.dart';
-import 'package:tim_ui_kit_lbs_plugin/utils/location_utils.dart';
-import 'package:tim_ui_kit_lbs_plugin/utils/tim_location_model.dart';
-import 'package:tim_ui_kit_lbs_plugin/widget/location_msg_element.dart';
+// import 'package:tim_ui_kit_lbs_plugin/pages/location_picker.dart';
+// import 'package:tim_ui_kit_lbs_plugin/utils/location_utils.dart';
+// import 'package:tim_ui_kit_lbs_plugin/utils/tim_location_model.dart';
+// import 'package:tim_ui_kit_lbs_plugin/widget/location_msg_element.dart';
 import 'package:tencent_cloud_chat_demo/src/group_profile.dart';
-import 'package:tencent_cloud_chat_demo/utils/baidu_implements/map_service_baidu_implement.dart';
-import 'package:tencent_cloud_chat_demo/utils/baidu_implements/map_widget_baidu_implement.dart';
+// import 'package:tencent_cloud_chat_demo/utils/baidu_implements/map_service_baidu_implement.dart';
+// import 'package:tencent_cloud_chat_demo/utils/baidu_implements/map_widget_baidu_implement.dart';
 import 'package:tencent_cloud_chat_demo/utils/custom_message/custom_message_element.dart';
-import 'package:tencent_cloud_chat_demo/utils/toast.dart';
+// import 'package:tencent_cloud_chat_demo/utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:tencent_cloud_chat_demo/src/provider/custom_sticker_package.dart';
 import 'package:tencent_cloud_chat_demo/src/provider/local_setting.dart';
@@ -57,15 +57,10 @@ class _ChatState extends State<Chat> {
   final TIMUIKitChatController _chatController = TIMUIKitChatController();
   String? backRemark;
   final V2TIMManager sdkInstance = TIMUIKitCore.getSDKInstance();
-  GlobalKey<dynamic> tuiChatField = GlobalKey();
   String? conversationName;
 
   String _getTitle() {
     return backRemark ?? widget.selectedConversation.showName ?? "Chat";
-  }
-
-  String? _getDraftText() {
-    return widget.selectedConversation.draftText;
   }
 
   String? _getConvID() {
@@ -108,35 +103,35 @@ class _ChatState extends State<Chat> {
     }
   }
 
-  _onTapLocation() {
-    if (!PlatformUtils().isMobile) {
-      ToastUtils.toast(TIM_t("百度地图插件暂不支持网页版，请使用手机APP DEMO体验位置消息能力。"));
-      return;
-    }
-    tuiChatField.currentState.textFieldController.hideAllPanel();
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LocationPicker(
-            isUseMapSDKLocation: true,
-            onChange: (LocationMessage location) async {
-              final locationMessageInfo = await sdkInstance.v2TIMMessageManager
-                  .createLocationMessage(
-                      desc: location.desc,
-                      longitude: location.longitude,
-                      latitude: location.latitude);
-              final messageInfo = locationMessageInfo.data!.messageInfo;
-              _chatController.sendMessage(messageInfo: messageInfo);
-            },
-            mapBuilder: (onMapLoadDone, mapKey, onMapMoveEnd) => BaiduMap(
-              onMapMoveEnd: onMapMoveEnd,
-              onMapLoadDone: onMapLoadDone,
-              key: mapKey,
-            ),
-            locationUtils: LocationUtils(BaiduMapService()),
-          ),
-        ));
-  }
+  // _onTapLocation() {
+  //   if (!PlatformUtils().isMobile) {
+  //     ToastUtils.toast(TIM_t("百度地图插件暂不支持网页版，请使用手机APP DEMO体验位置消息能力。"));
+  //     return;
+  //   }
+  //   _chatController.hideAllBottomPanelOnMobile();
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => LocationPicker(
+  //           isUseMapSDKLocation: true,
+  //           onChange: (LocationMessage location) async {
+  //             final locationMessageInfo = await sdkInstance.v2TIMMessageManager
+  //                 .createLocationMessage(
+  //                     desc: location.desc,
+  //                     longitude: location.longitude,
+  //                     latitude: location.latitude);
+  //             final messageInfo = locationMessageInfo.data!.messageInfo;
+  //             _chatController.sendMessage(messageInfo: messageInfo);
+  //           },
+  //           mapBuilder: (onMapLoadDone, mapKey, onMapMoveEnd) => BaiduMap(
+  //             onMapMoveEnd: onMapMoveEnd,
+  //             onMapLoadDone: onMapLoadDone,
+  //             key: mapKey,
+  //           ),
+  //           locationUtils: LocationUtils(BaiduMapService()),
+  //         ),
+  //       ));
+  // }
 
   @override
   void initState() {
@@ -352,22 +347,18 @@ class _ChatState extends State<Chat> {
     final isWideScreen =
         TUIKitScreenUtils.getFormFactor(context) == DeviceType.Desktop;
     final theme = Provider.of<DefaultThemeData>(context).theme;
-    // bool canAddVotePlugin = widget.selectedConversation.groupID != null &&
-    //     widget.selectedConversation.groupID!.isNotEmpty && ;
-    String groupID = widget.selectedConversation.groupID ?? "";
-    String groupType = widget.selectedConversation.groupType ?? "";
+    final groupID = widget.selectedConversation.groupID;
+    final groupType = widget.selectedConversation.groupType;
     List<String> notAllowGroupType = [
       GroupType.Community,
       GroupType.AVChatRoom
     ];
     bool canAddVotePlugin = false;
-    if (groupID.isNotEmpty &&
-        groupType.isNotEmpty &&
+    if (TencentUtils.checkString(groupID) != null &&
+        TencentUtils.checkString(groupType) != null &&
         !notAllowGroupType.contains(groupType)) {
       canAddVotePlugin = true;
     }
-    // List customEmojiList =
-    //     Const.emojiList.where((element) => element.isEmoji == true).toList();
     return TencentPage(
       name: 'chat',
       child: TIMUIKitChat(
@@ -398,12 +389,11 @@ class _ChatState extends State<Chat> {
                 height: MediaQuery.of(context).size.width * 0.45,
                 title: TIM_t("进群申请列表"),
                 child: (closeFuncSendApplication) =>
-                    TIMUIKitGroupApplicationList(groupID: groupID),
+                    TIMUIKitGroupApplicationList(groupID: groupID ?? ""),
               );
             }
           },
           groupAtInfoList: widget.selectedConversation.groupAtInfoList,
-          key: tuiChatField,
           customStickerPanel: renderCustomStickerPanel,
           showTotalUnReadCount: true,
           // customEmojiStickerList: customEmojiList,
@@ -448,14 +438,14 @@ class _ChatState extends State<Chat> {
                 return "@2x.png";
               },
               additionalDesktopControlBarItems: [
-                if (canAddVotePlugin)
-                  DesktopControlBarItem(
-                      item: "poll",
-                      showName: TIM_t("投票"),
-                      onClick: (offset) {
-                        _createVote(groupID);
-                      },
-                      icon: Icons.ballot_outlined),
+                // if (canAddVotePlugin)
+                //   DesktopControlBarItem(
+                //       item: "poll",
+                //       showName: TIM_t("投票"),
+                //       onClick: (offset) {
+                //         _createVote(groupID ?? "");
+                //       },
+                //       svgPath: "assets/send_poll.svg"),
               ]),
           conversationID: _getConvID() ?? '',
           conversationType:
@@ -463,7 +453,6 @@ class _ChatState extends State<Chat> {
           onTapAvatar: (userID, tapDetails) =>
               _onTapAvatar(userID, tapDetails, theme),
           initFindingMsg: widget.initFindingMsg,
-          draftText: _getDraftText(),
           messageItemBuilder: MessageItemBuilder(
             messageRowBuilder: (message, messageWidget, onScrollToIndex,
                 isNeedShowJumpStatus, clearJumpStatus, onScrollToIndexBegin) {
@@ -481,7 +470,7 @@ class _ChatState extends State<Chat> {
               );
             },
             locationMessageItemBuilder: (message, isShowJump, clearJump) {
-              if (!PlatformUtils().isMobile) {
+              // if (!PlatformUtils().isMobile) {
                 String dividerForDesc = "/////";
                 String address = message.locationElem?.desc ?? "";
                 String addressName = address;
@@ -556,48 +545,48 @@ class _ChatState extends State<Chat> {
                     ),
                   ),
                 );
-              }
-              return LocationMsgElement(
-                isAllowCurrentLocation: false,
-                messageID: message.msgID,
-                locationElem: LocationMessage(
-                  longitude: message.locationElem!.longitude,
-                  latitude: message.locationElem!.latitude,
-                  desc: message.locationElem?.desc ?? "",
-                ),
-                isFromSelf: message.isSelf ?? true,
-                isShowJump: isShowJump,
-                clearJump: clearJump,
-                mapBuilder: (onMapLoadDone, mapKey) => BaiduMap(
-                  onMapLoadDone: onMapLoadDone,
-                  key: mapKey,
-                ),
-                locationUtils: LocationUtils(BaiduMapService()),
-              );
+              // }
+              // return LocationMsgElement(
+              //   isAllowCurrentLocation: false,
+              //   messageID: message.msgID,
+              //   locationElem: LocationMessage(
+              //     longitude: message.locationElem!.longitude,
+              //     latitude: message.locationElem!.latitude,
+              //     desc: message.locationElem?.desc ?? "",
+              //   ),
+              //   isFromSelf: message.isSelf ?? true,
+              //   isShowJump: isShowJump,
+              //   clearJump: clearJump,
+              //   mapBuilder: (onMapLoadDone, mapKey) => BaiduMap(
+              //     onMapLoadDone: onMapLoadDone,
+              //     key: mapKey,
+              //   ),
+              //   locationUtils: LocationUtils(BaiduMapService()),
+              // );
             },
           ),
           morePanelConfig: MorePanelConfig(
             extraAction: [
               // 隐私协议中没有位置消息，暂时下掉
-              MorePanelItem(
-                  id: "location",
-                  title: TIM_t("位置"),
-                  onTap: (c) {
-                    _onTapLocation();
-                  },
-                  icon: Container(
-                    height: 64,
-                    width: 64,
-                    margin: const EdgeInsets.only(bottom: 4),
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
-                    child: Icon(
-                      Icons.location_on,
-                      color: hexToColor("5c6168"),
-                      size: 32,
-                    ),
-                  )),
+              // MorePanelItem(
+              //     id: "location",
+              //     title: TIM_t("位置"),
+              //     onTap: (c) {
+              //       _onTapLocation();
+              //     },
+              //     icon: Container(
+              //       height: 64,
+              //       width: 64,
+              //       margin: const EdgeInsets.only(bottom: 4),
+              //       decoration: const BoxDecoration(
+              //           color: Colors.white,
+              //           borderRadius: BorderRadius.all(Radius.circular(5))),
+              //       child: Icon(
+              //         Icons.location_on,
+              //         color: hexToColor("5c6168"),
+              //         size: 32,
+              //       ),
+              //     )),
               // ...getVotePlugin(canAddVotePlugin, groupID),
             ],
           ),
@@ -640,10 +629,10 @@ class _ChatState extends State<Chat> {
                                         size: 20,
                                       ))
                                 ],
-                                textTheme: TextTheme(
-                                    titleMedium: TextStyle(
-                                        color: hexToColor("010000"),
-                                        fontSize: 16)),
+                                // textTheme: TextTheme(
+                                //     titleMedium: TextStyle(
+                                //         color: hexToColor("010000"),
+                                //         fontSize: 16)),
                               ),
                               conversationShowName: _getTitle(),
                               conversationID: _getConvID() ?? "",

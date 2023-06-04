@@ -5,8 +5,9 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_windows
   bitsdojo_window_windows
+  desktop_drop
   desktop_webview_window_for_is
-  fc_native_video_thumbnail_for_us
+  fc_native_video_thumbnail
   pasteboard
   permission_handler_windows
   url_launcher_windows
